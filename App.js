@@ -25,30 +25,27 @@ function HomeNav(){
 }
 
 const Stack = createNativeStackNavigator();
-const temp = true;
 
 function AuthNav(){
-  if (temp) {
-    return (
-      HomeNav()
-    )
-  } else {
-    return (
-      AuthNav()
-    )
-  }
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name = "Signin" component={Signin} />
+    </Stack.Navigator>
+  );
 }
 
-
+const temp = true;
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
+      {temp ? 
+        HomeNav()
+      :
+        AuthNav()
+      }
     </NavigationContainer>
-  );
+  )
 }
 
 export default App;

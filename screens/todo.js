@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function Todo() {
   return (
     <View style={styles.container}>
-      <Text>Hello Home Screen</Text>
+      <Text>Hello Todo Screen</Text>
       <StatusBar style="auto" />
     </View>
   );
