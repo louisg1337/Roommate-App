@@ -1,9 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
 // Redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
+
+// Firebase
+import { authObserver } from './firebase/auth';
 
 // React Navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,10 +16,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Screens
 import Home from './screens/home';
 import Todo from './screens/todo';
-import Signin from './screens/signin';
-
+import SignIn from './screens/auth/signIn';
+import SignUp from './screens/auth/signUp';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 function HomeNav(){
   return (
@@ -27,19 +31,18 @@ function HomeNav(){
   );
 }
 
-const Stack = createNativeStackNavigator();
-
 function AuthNav(){
   return (
-    <Stack.Navigator>
-      <Stack.Screen name = "Signin" component={Signin} options={{headerShown: false}} />
+    <Stack.Navigator initialRouteName='SignUp'>
+      <Stack.Screen name = "SignUp" component={SignUp} options={{headerShown: false}} />
+      <Stack.Screen name = "SignIn" component={SignIn} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
 
-const auth = true;
-
 function App() {
+  const auth = authObserver()
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -54,3 +57,14 @@ function App() {
 }
 
 export default App;
+
+
+
+
+// if (loading) {
+//   return (
+//     <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+//       <ActivityIndicator size="large" color="#00ff00" />
+//     </View>
+//   )
+// } else {

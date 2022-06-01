@@ -5,23 +5,17 @@ export const userSlice = createSlice({
     initialState: {
         name: "",
         id: "",
-        roomId: "",
-
     },  
     reducers: {
-        initialize(state, action) {
+        initializeUser(state, action) {
             state.name = action.payload.name;
             state.id = action.payload.id;
-            state.roomId = action.payload.roomId;
         },
-        updateRoom(state, action) {
-            state.roomId = action.payload.roomId;
-        }
     }
 });
 
 // Export reducer functions
-export const { initialize, updateRoom } = userSlice.actions;
+export const { initializeUser } = userSlice.actions;
 
 // Export entire slice
 export default userSlice.reducer;
