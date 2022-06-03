@@ -7,7 +7,7 @@ import { initializeRoom } from '../redux/roomSlice';
 export default function Home() {
   const dispatch = useDispatch();
   const room = useSelector(state => state.room);
-  const user = useSelector(state => state.user)
+  const user = useSelector(state => state.user);
 
   const testData = {
     roomId: Math.random(), 

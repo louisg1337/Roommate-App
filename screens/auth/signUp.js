@@ -3,21 +3,14 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { createUser } from '../../firebase/auth';
 
-// Redux
-import { useDispatch } from 'react-redux';
-import { initializeUser } from '../../redux/userSlice';
-
 export default function SignUp({ navigation }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const dispatch = useDispatch();
 
     const signUpUser = async () => {
         if (name != "" && email != "" && password != ""){
-            createUser(name, email, password).then((user) => {
-                dispatch(initializeUser({id: user.uid, name: name}))
-            })
+            createUser(name, email, password)
         } else {
             alert("Please fill out all fields!");
         }

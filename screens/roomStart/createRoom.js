@@ -1,42 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { signInUser } from '../../firebase/auth';
+import { createRoom } from '../../firebase/firestore';
+
+// Redux
+import { initializeRoom } from '../../redux/roomSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
-export default function SignIn({ navigation }) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+export default function CreateRoom({ navigation }) {
+    const [name, setName] = useState("");
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user)
 
-    const signIn = async () => {
-        if (email != "" && password != ""){
-            signInUser(email, password)
-        } else {
-            alert("Please fill out all fields!");
+    const create = () => {
+        if (name == ""){
+            alert("Please add a name!");
+            return;
         }
+
+        createRoom(user, name).then((roomData) => {
+            dispatch(initializeRoom(roomData));
+            navigation.replace('Main');
+        }).catch((e) => {
+            alert("Oh no! Something went wrong! " + e.message)
+        })
     }
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container}>
-                <Text style={styles.headerText}>Sign In</Text>
                 <View style={styles.form}>
                     <TextInput
-                    placeholder='Email'
+                    placeholder='Room Name'
                     style={styles.inputStyle}        
-                    onChangeText={setEmail}
-                    value={email}
-                    keyboardType={'email-address'}
-                    />
-                    <TextInput
-                    placeholder='Password'
-                    style={styles.inputStyle}   
-                    onChangeText={setPassword}
-                    value={password}
-                    secureTextEntry={true}   
+                    onChangeText={setName}
+                    value={name}
                     />
                     <Pressable 
-                        onPress={() => signIn()}
+                        onPress={() => create()}
                         style={({ pressed }) => [
                             {
                             backgroundColor: pressed
@@ -46,12 +47,9 @@ export default function SignIn({ navigation }) {
                             styles.button
                         ]}
                     >
-                        <Text style={{fontSize: 25}}>Sign In!</Text>
+                        <Text style={{fontSize: 25}}>Create</Text>
                     </Pressable>
                 </View>
-                <Pressable style={{marginTop: 20}} onPress={() => navigation.navigate('SignUp')}>
-                    <Text>Don't have an account? Sign up!</Text>
-                </Pressable>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -73,7 +71,9 @@ const styles = StyleSheet.create({
       height: '40%',
       borderWidth: 1,
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      marginTop: '50%',
+      borderRadius: 20
   },
   inputStyle: {
     width: '80%',
@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
     borderRadius: 30,
-    padding: '5%',
+    paddingHorizontal: '9%',
+    paddingVertical: '4%',
     marginTop: '10%'
   }
 });

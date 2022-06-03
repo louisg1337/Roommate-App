@@ -50,7 +50,6 @@ export const signOutUser = () => {
     signOut(auth);
 }
 
-
 export const authObserver = () => {
     const [currentUser, setCurrentUser] = useState(false);
 
