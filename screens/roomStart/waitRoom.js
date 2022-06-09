@@ -8,6 +8,8 @@ import { initData, joinRoom } from '../../firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
 import { initializeRoom } from '../../redux/roomSlice';
 import { initializeUser } from '../../redux/userSlice';
+import { initExpenseId } from '../../redux/expenseSlice';
+import { initTodoId } from '../../redux/todoSlice';
 
 export default function WaitRoom({ navigation }) {
     const [loading, setLoading] = useState(true);
@@ -18,13 +20,15 @@ export default function WaitRoom({ navigation }) {
     useEffect(() => {
         console.log('//////////////// NEW LOAD ////////////////')
         initData().then((result) => {
-            console.log(result)
-            // Data: [boolean, userData, roomData(?)]
+            // Data: [boolean (in room), userData, roomData(?)]
             dispatch(initializeUser(result[1]));
 
             if (result[0]){
-                // If in room
-                dispatch(initializeRoom(result[2]));
+                let roomData = result[2];
+
+                // If in room, save room data
+                dispatch(initializeRoom(roomData));
+
                 navigation.replace('Main');
             } else {
                 // Not in room

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHouse, faHouseChimney, faList, faBell, faMoneyBill1Wave } from '@fortawesome/free-solid-svg-icons';
+import { HIGHLIGHT } from './assets/colors';
 
 // Redux
 import { Provider, useSelector } from 'react-redux';
-import { selectRoom } from './redux/roomSlice';
 import store from './redux/store';
 
 // Firebase
@@ -21,16 +21,71 @@ import SignIn from './screens/auth/signIn';
 import SignUp from './screens/auth/signUp';
 import WaitRoom from './screens/roomStart/waitRoom';
 import CreateRoom from './screens/roomStart/createRoom';
+import Status from './screens/status';
+import Expenses from './screens/expenses';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const RoomStack = createNativeStackNavigator();
 
+
 const HomeNav = () => {
   return (
-    <Tab.Navigator initialRouteName='Home'>
-      <Tab.Screen name="Home" component={Home} options={{headerShown: false}}/>
-      <Tab.Screen name="Todo" component={Todo} options={{headerShown: false}}/>
+    <Tab.Navigator initialRouteName='Home' screenOptions={{
+      tabBarStyle: {
+        backgroundColor: '#F3F0EE',
+        borderWidth: 0,
+      },
+      tabBarActiveTintColor: HIGHLIGHT
+    }}>
+      <Tab.Screen 
+      name="Home" 
+      component={Home} 
+      options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => {
+          return (
+            <FontAwesomeIcon icon={faHouseChimney} size={30} color={focused ? HIGHLIGHT : 'gray'}/>
+          )
+        }
+      }} 
+      />
+      <Tab.Screen 
+      name="Status" 
+      component={Status} 
+      options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => {
+          return (
+            <FontAwesomeIcon icon={faBell} size={30} color={focused ? HIGHLIGHT : 'gray'}/>
+          )
+        }
+      }}
+      />
+      <Tab.Screen 
+      name="Todo" 
+      component={Todo} 
+      options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => {
+          return (
+            <FontAwesomeIcon icon={faList} size={25} color={focused ? HIGHLIGHT : 'gray'}/>
+          )
+        }
+      }} 
+      />
+      <Tab.Screen 
+      name="Expenses" 
+      component={Expenses} 
+      options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => {
+          return (
+            <FontAwesomeIcon icon={faMoneyBill1Wave} size={30} color={focused ? HIGHLIGHT : 'gray'}/>
+          )
+        }
+      }}
+      />
     </Tab.Navigator>
   );
 }

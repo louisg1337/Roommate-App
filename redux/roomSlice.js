@@ -7,6 +7,8 @@ export const roomSlice = createSlice({
         roomId: "",
         roommates: [],
         owner: "",
+        expenseId: "",
+        todoId: "",
     },  
     reducers: {
         initializeRoom(state, action) {
@@ -14,6 +16,8 @@ export const roomSlice = createSlice({
             state.roomId = action.payload.roomId;
             state.roommates = action.payload.roommates;
             state.owner = action.payload.owner;
+            state.expenseId = action.payload.expenseId;
+            state.todoId = action.payload.todoId;
         },
     }
 });
