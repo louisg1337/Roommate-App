@@ -1,6 +1,7 @@
+import { View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHouse, faHouseChimney, faList, faBell, faMoneyBill1Wave } from '@fortawesome/free-solid-svg-icons';
-import { HIGHLIGHT } from './assets/colors';
+import { HIGHLIGHT, ACCENT } from './assets/colors';
 
 // Redux
 import { Provider, useSelector } from 'react-redux';
@@ -33,10 +34,14 @@ const HomeNav = () => {
   return (
     <Tab.Navigator initialRouteName='Home' screenOptions={{
       tabBarStyle: {
-        backgroundColor: '#F3F0EE',
-        borderWidth: 0,
+        paddingTop: '4%',
+        backgroundColor: HIGHLIGHT,
+        borderRadius: '30%',
+        height: '10%',
+        position: 'absolute',
       },
-      tabBarActiveTintColor: HIGHLIGHT
+      tabBarActiveTintColor: 'white',
+      tabBarShowLabel: false,
     }}>
       <Tab.Screen 
       name="Home" 
@@ -45,7 +50,9 @@ const HomeNav = () => {
         headerShown: false,
         tabBarIcon: ({focused}) => {
           return (
-            <FontAwesomeIcon icon={faHouseChimney} size={30} color={focused ? HIGHLIGHT : 'gray'}/>
+            <View style={[{padding: '12%', borderRadius: '30%', backgroundColor: focused ? 'white' : HIGHLIGHT}]}>
+              <FontAwesomeIcon icon={faHouseChimney} size={25} color={focused ? HIGHLIGHT : 'white'}/>
+            </View>
           )
         }
       }} 
@@ -57,7 +64,9 @@ const HomeNav = () => {
         headerShown: false,
         tabBarIcon: ({focused}) => {
           return (
-            <FontAwesomeIcon icon={faBell} size={30} color={focused ? HIGHLIGHT : 'gray'}/>
+            <View style={[{padding: '12%', borderRadius: '30%', backgroundColor: focused ? 'white' : HIGHLIGHT}]}>
+              <FontAwesomeIcon icon={faBell} size={25} color={focused ? HIGHLIGHT : 'white'}/>
+            </View>
           )
         }
       }}
@@ -69,7 +78,9 @@ const HomeNav = () => {
         headerShown: false,
         tabBarIcon: ({focused}) => {
           return (
-            <FontAwesomeIcon icon={faList} size={25} color={focused ? HIGHLIGHT : 'gray'}/>
+            <View style={[{padding: '12%', borderRadius: '30%', backgroundColor: focused ? 'white' : HIGHLIGHT}]}>
+              <FontAwesomeIcon icon={faList} size={25} color={focused ? HIGHLIGHT : 'white'}/>
+            </View>
           )
         }
       }} 
@@ -81,7 +92,9 @@ const HomeNav = () => {
         headerShown: false,
         tabBarIcon: ({focused}) => {
           return (
-            <FontAwesomeIcon icon={faMoneyBill1Wave} size={30} color={focused ? HIGHLIGHT : 'gray'}/>
+            <View style={[{padding: '12%', borderRadius: '30%', backgroundColor: focused ? 'white' : HIGHLIGHT}]}>
+              <FontAwesomeIcon icon={faMoneyBill1Wave} size={25} color={focused ? HIGHLIGHT : 'white'}/>
+            </View>
           )
         }
       }}
