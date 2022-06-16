@@ -109,24 +109,22 @@ export const createRoom = (user, roomName) => {
         const expenseRef = await addDoc(collection(db, "expenses"), {});
         const todoRef = await addDoc(collection(db, "todos"), {});
 
-        setDoc(doc(db, "rooms", roomId), {
+        let data = {
             roomName,
             roommates: [user],
             owner: user.id,
             expenseId: expenseRef.id,
-            todoId: todoRef.id
-        }).then((response) => {
+            todoId: todoRef.id,
+            status: 'Free',
+            statusName: 'None',
+        }
+
+        setDoc(doc(db, "rooms", roomId), data).then((response) => {
             console.log("Made room");
             // Add to user
             updateDoc(doc(db, "users", user.id), {
                 roomId: roomId
             }).then(() => {
-                let data = {
-                    roomName,
-                    roomId,
-                    roommates: [user],
-                    owner: user.id,
-                }
                 resolve(data);
             })
         }).catch((e) => alert("Something went wrong! " + e.message))
@@ -169,4 +167,19 @@ export const joinRoom = (roomId, user) => {
     });
 
     return result;
+}
+
+/**
+ * 
+ * @param {*} status 
+ * @param {*} statusName 
+ * @param {*} roomId 
+ */
+export const updateStatus = (status, statusName, roomId) => {
+    updateDoc(doc(db, "rooms", roomId), {
+        status, 
+        statusName
+    })
+    .then(() => console.log('Success!'))
+    .catch((e) => alert('An error has occured! ' + e.message));
 }

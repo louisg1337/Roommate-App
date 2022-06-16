@@ -9,6 +9,8 @@ export const roomSlice = createSlice({
         owner: "",
         expenseId: "",
         todoId: "",
+        status: "",
+        statusName: "",
     },  
     reducers: {
         initializeRoom(state, action) {
@@ -18,12 +20,17 @@ export const roomSlice = createSlice({
             state.owner = action.payload.owner;
             state.expenseId = action.payload.expenseId;
             state.todoId = action.payload.todoId;
+            state.status = action.payload.status;
         },
+        changeStatus(state, action){
+            state.status = action.payload.status;
+            state.statusName = action.payload.statusName;
+        }
     }
 });
 
 // Export reducer functions
-export const { initializeRoom } = roomSlice.actions;
+export const { initializeRoom, changeStatus } = roomSlice.actions;
 
 // Export room state
 export const selectRoom = (state) => state.room;

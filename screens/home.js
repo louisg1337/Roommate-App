@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
+import { useCallback, useEffect } from 'react';
+import { StyleSheet, Text, View, Pressable, Image, ScrollView, RefreshControl } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HIGHLIGHT, TEXT_COLOR, BUTTON_CLICKED, BACKGROUND_COLOR, ACCENT } from '../assets/colors'
 
@@ -9,6 +9,24 @@ export default function Home({ navigation }) {
   const dispatch = useDispatch();
   const room = useSelector(state => state.room);
   const user = useSelector(state => state.user);
+
+  const message = (status, name) => {
+    switch(status){
+      case 'Free':
+        return 'The room is free'
+      case 'Sleeping':
+        return name + ' is sleeping'
+      case 'Occupied':
+        return name + ' needs the room'
+      case 'Studying':
+        return name + ' is studying'
+    }
+  }
+
+  useEffect(() => {
+    console.log('//////// RELOAD ////////')
+    console.log(room)
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -23,10 +41,18 @@ export default function Home({ navigation }) {
           <Text style={styles.cardHeaderText}>Room Status</Text>
           <Pressable style={({pressed}) => [{backgroundColor: pressed ? BUTTON_CLICKED : CARD_COLOR}, styles.card]} onPress={() => navigation.navigate('Status')}>
             <View style={styles.leftContainer}>
-              <Image source={require('../assets/sleepingEmoji.png')} style={styles.emoji}/>
+              <Image source={
+                (room.status == 'Sleeping') ? 
+                require('../assets/sleepingEmoji.png') : 
+                (room.status == 'Occupied') ? 
+                require('../assets/occupiedEmoji.png') : 
+                (room.status == "Free") ?
+                require('../assets/freeEmoji.png') :
+                require('../assets/studyingEmoji.png')
+                } style={styles.emoji}/>
             </View>
             <View style={styles.statusContainer}>
-              <Text style={styles.statusText}><Text style={{color: ACCENT}}>Louis</Text> is sleeping</Text>
+              <Text style={styles.statusText}>{message(room.status, room.statusName)}</Text>
               {/* <Text>Louis</Text> */}
             </View>
           </Pressable>
@@ -124,8 +150,8 @@ const styles = StyleSheet.create({
   ////// FIRST CARD ///////
   /////////////////////////
   emoji: {
-    height: '55%',
-    width: '55%'
+    height: '52%',
+    width: '50%'
   },
   statusText: {
     fontSize: 20,

@@ -19,6 +19,7 @@ export default function CreateRoom({ navigation }) {
         }
 
         createRoom(user, name).then((roomData) => {
+            console.log(roomData)
             dispatch(initializeRoom(roomData));
             navigation.replace('Main');
         }).catch((e) => {

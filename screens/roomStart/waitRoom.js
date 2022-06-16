@@ -20,15 +20,12 @@ export default function WaitRoom({ navigation }) {
     useEffect(() => {
         console.log('//////////////// NEW LOAD ////////////////')
         initData().then((result) => {
-            // Data: [boolean (in room), userData, roomData(?)]
+            // Data: [boolean (in room T/F), userData, roomData(?)]
             dispatch(initializeUser(result[1]));
-
             if (result[0]){
                 let roomData = result[2];
-
                 // If in room, save room data
                 dispatch(initializeRoom(roomData));
-
                 navigation.replace('Main');
             } else {
                 // Not in room
